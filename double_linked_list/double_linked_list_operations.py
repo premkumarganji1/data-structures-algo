@@ -117,32 +117,45 @@ class DoublyLinkedList:
         return False
 
     def insert(self, index, value):
-        if index < 0 or index >= self.length:
+        if index < 0 or index > self.length:
             return False
 
         if index == 0:
             return self.prepend(value)
 
-        if index == self.length - 1:
+        if index == self.length:
             return self.append(value)
 
         new_node = Node(value)
-        temp = self.head
+        before = self.get_updated(index - 1)
+        after = before.next
 
-        if index < self.length / 2:
-            for _ in range(index - 1):     # index from 0
-                temp = temp.next
+        new_node.prev = before
+        new_node.next = after
+        before.next = new_node
+        after.prev = new_node
 
-        else:
-            temp = self.tail
-            for _ in range(self.length - 1, index - 1, -1):  # index from 0
-                temp = temp.prev
+        self.length += 1
+        return True
 
-        new_node.next = temp.next
-        temp.next.prev = new_node
-        temp.next = new_node
-        new_node.prev = temp
-        return temp
+    def remove(self, index):
+        if index < 0 or index >= self.length:
+            return False
+
+        if index == 0:
+            return self.pop_first()
+
+        if index == self.length - 1:
+            return self.pop()
+
+        temp = self.get_updated(index)
+        temp.prev.next = temp.next
+        temp.next.prev = temp.prev
+        temp.next = None
+        temp.prev = None
+
+        self.length -= 1
+        return True
 
 
 my_dll = DoublyLinkedList(1)
@@ -159,4 +172,6 @@ my_dll.pop_first()
 print(f"get value: ", my_dll.get(2).value)
 print(f"get value updated: ", my_dll.get_updated(5).value)
 my_dll.insert(5, 20)
+my_dll.set_value(5, 21)
+my_dll.remove(5)
 my_dll.print_list()
