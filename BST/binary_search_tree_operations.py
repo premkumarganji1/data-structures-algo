@@ -50,7 +50,18 @@ class BinarySearchTree:
 
         return False
 
+    def __r_contains(self, current_node, value):
+        if current_node == None:
+            return False
+        elif value == current_node.value:
+            return True
+        elif value < current_node.value:
+            return self.__r_contains(current_node.left, value)
+        else:
+            return self.__r_contains(current_node.right, value)
 
+    def r_contains(self, value):
+        return self.__r_contains(self.root, value)
 
 
 
@@ -79,6 +90,8 @@ print('Root->Left:', my_tree.root.left.value)
 print('Root->Right:', my_tree.root.right.value)
 print('contains: ', my_tree.contains(3))
 print('contains: ', my_tree.contains(5))
+print('r contains: ', my_tree.r_contains(3))
+print('r contains: ', my_tree.r_contains(5))
 
 
 
