@@ -30,3 +30,4 @@ def partitions(n,m):
 print(sum2(5))
 print(sum2_recursion(5))
 print(partitions(3, 3))
+
